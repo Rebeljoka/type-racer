@@ -40,9 +40,6 @@ body {
 	background: #f5f5f5;
 	border: 1px solid #ccc;
 }
-.typeracer-buttons {
-	/* Default: no centering, will be set for mobile only */
-}
 
 @media (max-width: 767.98px) {
 	.typeracer-buttons {
