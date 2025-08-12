@@ -20,7 +20,7 @@
 	<div class="modal fade" id="countdownModal" tabindex="-1" aria-labelledby="countdownModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-				<div class="modal-body text-center" style="font-size:2.5rem; font-weight:700;">
+				<div class="modal-body text-center countdown-modal-body">
 					<span id="countdown-number">3</span>
 				</div>
 			</div>
@@ -77,7 +77,8 @@
 				<div class="mb-3">
 					<label class="form-label fw-bold" style="font-size:1.1rem;" for="prompt-display">Test your typing speed by typing the text shown below:</label>
 					<div id="prompt-display" class="form-control mb-2"></div>
-					<textarea id="typing-area" class="form-control" rows="3" placeholder="Click the start button to begin the test"></textarea>
+					<div id="user-input-display" class="form-control mb-2"></div>
+					<textarea id="typing-area" class="form-control visually-hidden" rows="3" placeholder="Click the start button to begin the test" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				</div>
 
 				<div class="typeracer-buttons d-flex flex-wrap mb-2">

@@ -44,6 +44,7 @@ window.addEventListener('DOMContentLoaded', function() {
     const resultWpm = document.getElementById('result-wpm');
     const difficultySelect = document.getElementById('difficulty-select');
     const promptDisplay = document.getElementById('prompt-display');
+    const userInputDisplay = document.getElementById('user-input-display');
 
     // Timer variables
     let startTime = null;
@@ -73,19 +74,21 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // Render the prompt with highlighting for incorrect letters
     function renderPromptDisplay() {
+        // Show the prompt as normal text
+        promptDisplay.textContent = currentPrompt;
+        // Show the user's input with error highlighting
         const userInput = typingArea.value;
         let html = "";
-        for (let i = 0; i < currentPrompt.length; i++) {
-            const char = currentPrompt[i];
-            if (userInput[i] === undefined) {
-                html += `<span>${char}</span>`;
-            } else if (userInput[i] === char) {
-                html += `<span>${char}</span>`;
+        for (let i = 0; i < userInput.length; i++) {
+            const userChar = userInput[i];
+            const promptChar = currentPrompt[i];
+            if (userChar === promptChar) {
+                html += `<span>${userChar}</span>`;
             } else {
-                html += `<span class='incorrect'>${char}</span>`;
+                html += `<span class='incorrect'>${userChar || ' '}</span>`;
             }
         }
-        promptDisplay.innerHTML = html;
+        userInputDisplay.innerHTML = html;
     }
 
     // Initialize or reset the typing test
@@ -164,12 +167,16 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     // Automatically stop test if user input matches prompt exactly
-    typingArea.addEventListener('input', function() {
+    typingArea.addEventListener('input', onTypingInput);
+
+    function onTypingInput() {
+        // Always render prompt display first for instant feedback
         renderPromptDisplay();
+        // Then check for completion
         if (timerRunning && typingArea.value === currentPrompt) {
             stopTest();
         }
-    });
+    }
 
     // Attach event listeners to buttons
     startBtn.addEventListener('click', showCountdownAndStartTest);
