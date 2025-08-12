@@ -76,16 +76,20 @@ window.addEventListener('DOMContentLoaded', function() {
     function renderPromptDisplay() {
         // Show the prompt as normal text
         promptDisplay.textContent = currentPrompt;
-        // Show the user's input with error highlighting
+        // Show the user's input with error highlighting or placeholder
         const userInput = typingArea.value;
         let html = "";
-        for (let i = 0; i < userInput.length; i++) {
-            const userChar = userInput[i];
-            const promptChar = currentPrompt[i];
-            if (userChar === promptChar) {
-                html += `<span>${userChar}</span>`;
-            } else {
-                html += `<span class='incorrect'>${userChar || ' '}</span>`;
+        if (!userInput) {
+            html = `<span class='user-placeholder'>Click the start button to begin the test!</span>`;
+        } else {
+            for (let i = 0; i < userInput.length; i++) {
+                const userChar = userInput[i];
+                const promptChar = currentPrompt[i];
+                if (userChar === promptChar) {
+                    html += `<span>${userChar}</span>`;
+                } else {
+                    html += `<span class='incorrect'>${userChar || ' '}</span>`;
+                }
             }
         }
         userInputDisplay.innerHTML = html;
@@ -106,8 +110,10 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // Countdown modal logic for starting the test
     function showCountdownAndStartTest() {
-        const countdownModal = new bootstrap.Modal(document.getElementById('countdownModal'));
+        const countdownModalEl = document.getElementById('countdownModal');
+        const countdownModal = new bootstrap.Modal(countdownModalEl);
         const countdownNumber = document.getElementById('countdown-number');
+        const cancelBtn = document.getElementById('countdown-cancel-btn');
         let count = 3;
         countdownNumber.textContent = count;
         countdownModal.show();
@@ -115,6 +121,17 @@ window.addEventListener('DOMContentLoaded', function() {
         stopBtn.disabled = true;
         typingArea.value = '';
         typingArea.setAttribute('readonly', true);
+
+        // Cancel handler
+        function handleCancel() {
+            clearInterval(countdownInterval);
+            countdownModal.hide();
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            cancelBtn.removeEventListener('click', handleCancel);
+        }
+        cancelBtn.addEventListener('click', handleCancel);
+
         countdownInterval = setInterval(() => {
             count--;
             if (count > 0) {
@@ -124,8 +141,9 @@ window.addEventListener('DOMContentLoaded', function() {
             } else {
                 clearInterval(countdownInterval);
                 countdownModal.hide();
+                cancelBtn.removeEventListener('click', handleCancel);
                 // Wait for modal to be fully hidden before enabling typing and starting timer
-                document.getElementById('countdownModal').addEventListener('hidden.bs.modal', function handler() {
+                countdownModalEl.addEventListener('hidden.bs.modal', function handler() {
                     typingArea.removeAttribute('readonly');
                     typingArea.focus();
                     startTime = Date.now();
