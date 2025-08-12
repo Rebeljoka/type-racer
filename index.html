@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>TypeRacer</title>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+	<!-- Custom CSS -->
+	<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+	<header class="typeracer-header">
+		<div class="typeracer-title">TypeRacer</div>
+		<button class="typeracer-instructions-btn mt-2" type="button">
+			<i class="fa-solid fa-circle-info me-2"></i>Instructions
+		</button>
+	</header>
+	<main class="container-fluid py-4">
+		<div class="typeracer-card">
+			<div class="typeracer-main w-100">
+				<div class="mb-3">
+					<div class="input-group">
+						<span class="input-group-text" id="difficulty-label">Select Difficulty</span>
+						<select class="form-select" aria-label="Select Difficulty" aria-describedby="difficulty-label">
+							<option value="easy" selected>Easy</option>
+							<option value="medium">Medium</option>
+							<option value="hard">Hard</option>
+						</select>
+					</div>
+				</div>
+				<div class="mb-3">
+					<label class="form-label fw-bold" style="font-size:1.1rem;">Test your typing speed by typing the text shown below:</label>
+					<input type="text" class="form-control mb-2" value="The cat sat on the mat." readonly>
+					<textarea class="form-control" rows="3" placeholder="Click the start button to begin the test"></textarea>
+				</div>
+				<div class="typeracer-buttons d-flex flex-wrap mb-2">
+					<button class="btn" type="button"><i class="fa-solid fa-play me-1"></i>Start</button>
+					<button class="btn" type="button"><i class="fa-solid fa-stop me-1"></i>Stop</button>
+					<button class="btn" type="button"><i class="fa-solid fa-rotate-right me-1"></i>Retry</button>
+				</div>
+			</div>
+			<div class="typeracer-results ms-md-4 mt-4 mt-md-0">
+				<div class="typeracer-results-title">Results</div>
+				<p><strong>Level:</strong> Easy</p>
+				<p><strong>Time:</strong> 0s</p>
+				<p><strong>WPM:</strong> 0</p>
+			</div>
+		</div>
+	</main>
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

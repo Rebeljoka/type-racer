@@ -1,0 +1,105 @@
+
+body {
+	font-family: 'Nunito', Arial, sans-serif;
+	background: #fff;
+}
+.typeracer-header {
+	background: #ff8400;
+	color: #fff;
+	padding: 2rem 0 1.5rem 0;
+	text-align: center;
+}
+.typeracer-title {
+	font-family: 'Alegreya', serif;
+	font-size: 2.2rem;
+	margin-bottom: 0.5rem;
+}
+.typeracer-instructions-btn {
+	background: #fff;
+	color: #ff8400;
+	border: none;
+	font-weight: 700;
+	border-radius: 6px;
+	padding: 0.5rem 1.2rem;
+	font-family: 'Nunito', Arial, sans-serif;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+.typeracer-instructions-btn:hover {
+	background: #ffe0b3;
+	color: #ff8400;
+}
+.typeracer-card {
+	max-width: 480px;
+	margin: 2rem auto 0 auto;
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+	padding: 2rem 1.5rem 1.5rem 1.5rem;
+}
+.input-group-text, .form-select {
+	background: #f5f5f5;
+	border: 1px solid #ccc;
+}
+.typeracer-buttons {
+	/* Default: no centering, will be set for mobile only */
+}
+
+@media (max-width: 767.98px) {
+	.typeracer-buttons {
+		justify-content: center;
+	}
+}
+.typeracer-buttons .btn {
+	border: 2px solid #ff8400;
+	color: #ff8400;
+	background: #fff;
+	font-weight: 700;
+	min-width: 90px;
+	margin-right: 0.5rem;
+	margin-bottom: 0.5rem;
+	transition: background 0.2s, color 0.2s;
+}
+.typeracer-buttons .btn:last-child {
+	margin-right: 0;
+}
+.typeracer-buttons .btn:hover, .typeracer-buttons .btn:focus {
+	background: #ff8400;
+	color: #fff;
+}
+.typeracer-results {
+	border: 2px solid #ff8400;
+	border-radius: 16px;
+	background: #fff;
+	box-shadow: 0 2px 8px rgba(255,132,0,0.08);
+	padding: 1.2rem 1.5rem;
+	margin-top: 1.5rem;
+	text-align: center;
+}
+.typeracer-results-title {
+	font-size: 1.5rem;
+	font-family: 'Alegreya', serif;
+	color: #222;
+	margin-bottom: 0.5rem;
+}
+.typeracer-results p {
+	margin: 0.2rem 0;
+	font-size: 1.1rem;
+}
+@media (min-width: 768px) {
+	.typeracer-card {
+		max-width: 900px;
+		display: flex;
+		flex-direction: row;
+		gap: 2.5rem;
+		align-items: flex-start;
+		padding: 2.5rem 2.5rem 2.5rem 2.5rem;
+	}
+	.typeracer-main {
+		flex: 2;
+	}
+	.typeracer-results {
+		flex: 1;
+		margin-top: 0;
+		align-self: stretch;
+	}
+}
