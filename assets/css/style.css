@@ -1,3 +1,8 @@
+/* Custom style for instructions modal body */
+.instructions-modal-body {
+	background: #fffbe6;
+	color: #222;
+}
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family= Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 body {
