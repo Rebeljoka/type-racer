@@ -1,9 +1,74 @@
+/* Prompt display styling */
+#prompt-display {
+	min-height: 48px;
+	background: #f5f5f5;
+	font-family: inherit;
+	font-size: 1.08rem;
+	letter-spacing: 0.02em;
+	white-space: pre-wrap;
+}
+
+/* Highlight correct and incorrect letters in prompt */
+#prompt-display span {
+	color: #222;
+}
+#prompt-display span.incorrect {
+	color: #d32f2f;
+	background: #ffeaea;
+	border-radius: 2px;
+}
+/* Make instructions modal larger and center the title */
+#instructionsModal .modal-dialog {
+	max-width: 600px;
+}
+#instructionsModal .modal-title {
+	text-align: center;
+	width: 100%;
+	display: block;
+}
+#instructionsModal .modal-body ol, #instructionsModal .modal-body ul {
+	font-size: 1.22rem;
+	padding-left: 0;
+}
+/* Hide numbers in the instructions modal ordered list */
+#instructionsModal .modal-body ol {
+	list-style: none;
+	counter-reset: none;
+	padding-left: 0;
+}
+/* Style the instructions modal list for better readability */
+#instructionsModal .modal-body ol {
+	background: #fff;
+	border-radius: 8px;
+	padding: 1.2rem 1.5rem 1.2rem 2.2rem;
+	margin: 0;
+	box-shadow: none;
+}
+#instructionsModal .modal-body ol li {
+	margin-bottom: 0.7rem;
+	font-size: 1.08rem;
+	line-height: 1.6;
+}
+#instructionsModal .modal-body ol li:last-child {
+	margin-bottom: 0;
+}
+/* Make instructions modal title black for readability */
+.instructions-modal-body ~ .modal-header .modal-title,
+#instructionsModal .modal-title {
+	color: #222 !important;
+}
+/* Custom focus style for input and textarea to match site color scheme */
+input:focus, textarea:focus, .form-control:focus, select:focus {
+	outline: none;
+	box-shadow: 0 0 0 4px rgba(255, 132, 0, 0.25);
+	border-color: #ff8400;
+}
 /* Custom style for instructions modal body */
 .instructions-modal-body {
 	background: #fffbe6;
 	color: #222;
 }
-@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family= Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 body {
 	font-family: 'Nunito', Arial, sans-serif;

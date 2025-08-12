@@ -43,7 +43,7 @@ window.addEventListener('DOMContentLoaded', function() {
     const resultTime = document.getElementById('result-time');
     const resultWpm = document.getElementById('result-wpm');
     const difficultySelect = document.getElementById('difficulty-select');
-    const promptInput = document.getElementById('prompt-input');
+    const promptDisplay = document.getElementById('prompt-display');
 
     // Timer variables
     let startTime = null;
@@ -64,9 +64,28 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     // Function to set a random prompt based on selected difficulty
+    let currentPrompt = "";
     function setRandomPrompt() {
         const texts = sampleTexts[difficultySelect.value] || sampleTexts.easy;
-        promptInput.value = texts[Math.floor(Math.random() * texts.length)];
+        currentPrompt = texts[Math.floor(Math.random() * texts.length)];
+        renderPromptDisplay();
+    }
+
+    // Render the prompt with highlighting for incorrect letters
+    function renderPromptDisplay() {
+        const userInput = typingArea.value;
+        let html = "";
+        for (let i = 0; i < currentPrompt.length; i++) {
+            const char = currentPrompt[i];
+            if (userInput[i] === undefined) {
+                html += `<span>${char}</span>`;
+            } else if (userInput[i] === char) {
+                html += `<span>${char}</span>`;
+            } else {
+                html += `<span class='incorrect'>${char}</span>`;
+            }
+        }
+        promptDisplay.innerHTML = html;
     }
 
     // Initialize or reset the typing test
@@ -77,6 +96,7 @@ window.addEventListener('DOMContentLoaded', function() {
         resultWpm.textContent = '0';
         resultLevel.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
         setRandomPrompt();
+        renderPromptDisplay();
         startBtn.disabled = false;
         stopBtn.disabled = true;
     }
@@ -112,9 +132,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     resultLevel.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
                     startBtn.disabled = true;
                     stopBtn.disabled = false;
-                    // Remove this event listener after it runs once
-                    document.getElementById('countdownModal').removeEventListener('hidden.bs.modal', handler);
-                });
+                }, { once: true });
             }
         }, 1000);
     }
@@ -128,7 +146,7 @@ window.addEventListener('DOMContentLoaded', function() {
         const endTime = Date.now();
         const timeTaken = (endTime - startTime) / 1000; // seconds
 
-        const promptText = promptInput.value;
+        const promptText = currentPrompt;
         const userInput = typingArea.value;
 
         const correctWords = countCorrectWords(promptText, userInput);
@@ -137,6 +155,7 @@ window.addEventListener('DOMContentLoaded', function() {
         resultTime.textContent = `${timeTaken.toFixed(2)}s`;
         resultWpm.textContent = wpm;
         resultLevel.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
+        stopBtn.disabled = true;
     }
 
     // Retry test logic
@@ -146,7 +165,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // Automatically stop test if user input matches prompt exactly
     typingArea.addEventListener('input', function() {
-        if (timerRunning && typingArea.value === promptInput.value) {
+        renderPromptDisplay();
+        if (timerRunning && typingArea.value === currentPrompt) {
             stopTest();
         }
     });
@@ -157,7 +177,7 @@ window.addEventListener('DOMContentLoaded', function() {
     retryBtn.addEventListener('click', retryTest);
 
     // On difficulty change, update prompt
-    difficultySelect.addEventListener('change', setRandomPrompt);
+    difficultySelect.addEventListener('change', initializeTest);
 
     // On page load, initialize the test
     initializeTest();
