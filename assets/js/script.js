@@ -1,6 +1,5 @@
-
-window.addEventListener('DOMContentLoaded', function() {
-    // Typing test sample texts by difficulty
+window.addEventListener('DOMContentLoaded', () => {
+    // Sample texts by difficulty
     const sampleTexts = {
         easy: [
             "The cat sat on the mat.",
@@ -34,82 +33,53 @@ window.addEventListener('DOMContentLoaded', function() {
         ]
     };
 
-    // DOM elements for results and controls
-    const typingArea = document.getElementById('typing-area');
-    const startBtn = document.getElementById('start-btn');
-    const stopBtn = document.getElementById('stop-btn');
-    const retryBtn = document.getElementById('retry-btn');
-    const resultLevel = document.getElementById('result-level');
-    const resultTime = document.getElementById('result-time');
-    const resultWpm = document.getElementById('result-wpm');
-    const difficultySelect = document.getElementById('difficulty-select');
-    const promptDisplay = document.getElementById('prompt-display');
-    const userInputDisplay = document.getElementById('user-input-display');
 
-    // Timer variables
-    let startTime = null;
-    let timerRunning = false;
-    let countdownInterval;
+    // DOM elements
+    const [typingArea, startBtn, stopBtn, retryBtn, resultLevel, resultTime, resultWpm, difficultySelect, promptDisplay, userInputDisplay] = [
+        'typing-area', 'start-btn', 'stop-btn', 'retry-btn', 'result-level', 'result-time', 'result-wpm', 'difficulty-select', 'prompt-display', 'user-input-display'
+    ].map(id => document.getElementById(id));
 
-    // Utility: Count correctly typed words
-    function countCorrectWords(reference, input) {
-        const refWords = reference.trim().split(/\s+/);
-        const inputWords = input.trim().split(/\s+/);
-        let correct = 0;
-        for (let i = 0; i < Math.min(refWords.length, inputWords.length); i++) {
-            if (refWords[i] === inputWords[i]) {
-                correct++;
-            }
-        }
-        return correct;
-    }
 
-    // Function to set a random prompt based on selected difficulty
-    let currentPrompt = "";
-    function setRandomPrompt() {
+    // State
+    let startTime = null, timerRunning = false, countdownInterval, currentPrompt = "";
+
+
+    // Utility
+    const countCorrectWords = (ref, input) => ref.trim().split(/\s+/).filter((w, i) => w === input.trim().split(/\s+/)[i]).length;
+
+
+    // UI update
+    const setRandomPrompt = () => {
         const texts = sampleTexts[difficultySelect.value] || sampleTexts.easy;
         currentPrompt = texts[Math.floor(Math.random() * texts.length)];
-        renderPromptDisplay();
-    }
+        updateDisplays();
+    };
 
-    // Render the prompt with highlighting for incorrect letters
-    function renderPromptDisplay() {
-        // Show the prompt as normal text
+    const updateDisplays = () => {
         promptDisplay.textContent = currentPrompt;
-        // Show the user's input with error highlighting or placeholder
         const userInput = typingArea.value;
-        let html = "";
-        if (!userInput) {
-            html = `<span class='user-placeholder'>Click the start button to begin the test!</span>`;
-        } else {
-            for (let i = 0; i < userInput.length; i++) {
-                const userChar = userInput[i];
-                const promptChar = currentPrompt[i];
-                if (userChar === promptChar) {
-                    html += `<span>${userChar}</span>`;
-                } else {
-                    html += `<span class='incorrect'>${userChar || ' '}</span>`;
-                }
-            }
-        }
-        userInputDisplay.innerHTML = html;
-    }
+        userInputDisplay.innerHTML = !userInput
+            ? `<span class='user-placeholder'>Click the start button to begin the test!</span>`
+            : Array.from(userInput).map((c, i) =>
+                c === currentPrompt[i]
+                    ? `<span>${c}</span>`
+                    : `<span class='incorrect'>${c || ' '}</span>`
+            ).join('');
+    };
 
-    // Initialize or reset the typing test
-    function initializeTest() {
+    const resetTest = () => {
         typingArea.value = '';
         typingArea.setAttribute('readonly', true);
         resultTime.textContent = '0.00s';
         resultWpm.textContent = '0';
         resultLevel.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
         setRandomPrompt();
-        renderPromptDisplay();
+        updateDisplays();
         startBtn.disabled = false;
         stopBtn.disabled = true;
-    }
+    };
 
-    // Countdown modal logic for starting the test
-    function showCountdownAndStartTest() {
+    const startCountdown = () => {
         const countdownModalEl = document.getElementById('countdownModal');
         const countdownModal = new bootstrap.Modal(countdownModalEl);
         const countdownNumber = document.getElementById('countdown-number');
@@ -122,14 +92,13 @@ window.addEventListener('DOMContentLoaded', function() {
         typingArea.value = '';
         typingArea.setAttribute('readonly', true);
 
-        // Cancel handler
-        function handleCancel() {
+        const handleCancel = () => {
             clearInterval(countdownInterval);
             countdownModal.hide();
             startBtn.disabled = false;
             stopBtn.disabled = true;
             cancelBtn.removeEventListener('click', handleCancel);
-        }
+        };
         cancelBtn.addEventListener('click', handleCancel);
 
         countdownInterval = setInterval(() => {
@@ -142,8 +111,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 clearInterval(countdownInterval);
                 countdownModal.hide();
                 cancelBtn.removeEventListener('click', handleCancel);
-                // Wait for modal to be fully hidden before enabling typing and starting timer
-                countdownModalEl.addEventListener('hidden.bs.modal', function handler() {
+                countdownModalEl.addEventListener('hidden.bs.modal', () => {
                     typingArea.removeAttribute('readonly');
                     typingArea.focus();
                     startTime = Date.now();
@@ -156,54 +124,39 @@ window.addEventListener('DOMContentLoaded', function() {
                 }, { once: true });
             }
         }, 1000);
-    }
+    };
 
-    // Stop the typing test and calculate results
-    function stopTest() {
+    const stopTest = () => {
         if (!timerRunning) return;
         timerRunning = false;
         typingArea.setAttribute('readonly', true);
-
         const endTime = Date.now();
-        const timeTaken = (endTime - startTime) / 1000; // seconds
-
-        const promptText = currentPrompt;
-        const userInput = typingArea.value;
-
-        const correctWords = countCorrectWords(promptText, userInput);
+        const timeTaken = (endTime - startTime) / 1000;
+        const correctWords = countCorrectWords(currentPrompt, typingArea.value);
         const wpm = timeTaken > 0 ? Math.round((correctWords / timeTaken) * 60) : 0;
-
         resultTime.textContent = `${timeTaken.toFixed(2)}s`;
         resultWpm.textContent = wpm;
         resultLevel.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
         stopBtn.disabled = true;
-    }
+    };
 
-    // Retry test logic
-    function retryTest() {
-        initializeTest();
-    }
 
-    // Automatically stop test if user input matches prompt exactly
-    typingArea.addEventListener('input', onTypingInput);
+    const retryTest = () => resetTest();
 
-    function onTypingInput() {
-        // Always render prompt display first for instant feedback
-        renderPromptDisplay();
-        // Then check for completion
+    const handleTypingInput = () => {
+        updateDisplays();
         if (timerRunning && typingArea.value === currentPrompt) {
             stopTest();
+            alert('Congrats! Check the box on the right or below to review your Results!');
         }
-    }
+    };
 
-    // Attach event listeners to buttons
-    startBtn.addEventListener('click', showCountdownAndStartTest);
+    // Event listeners
+    typingArea.addEventListener('input', handleTypingInput);
+    startBtn.addEventListener('click', startCountdown);
     stopBtn.addEventListener('click', stopTest);
     retryBtn.addEventListener('click', retryTest);
-
-    // On difficulty change, update prompt
-    difficultySelect.addEventListener('change', initializeTest);
-
-    // On page load, initialize the test
-    initializeTest();
+    difficultySelect.addEventListener('change', resetTest);
+    // Init
+    resetTest();
 });
