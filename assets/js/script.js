@@ -1,4 +1,30 @@
+// ========== TypeRacer Typing Test ========== //
 window.addEventListener('DOMContentLoaded', () => {
+    // ----- Leaderboard Utility Functions -----
+    function getLeaderboard() {
+        return JSON.parse(localStorage.getItem('typeracerLeaderboard') || '{}');
+    }
+    function setLeaderboard(leaderboard) {
+        localStorage.setItem('typeracerLeaderboard', JSON.stringify(leaderboard));
+    }
+    function updateLeaderboardDisplay() {
+        const leaderboard = getLeaderboard();
+        ['easy', 'medium', 'hard'].forEach(level => {
+            const el = document.getElementById(`leaderboard-${level}`);
+            if (el) el.textContent = leaderboard[level] ? leaderboard[level] : '-';
+        });
+    }
+    function tryUpdateLeaderboard(level, wpm) {
+        const leaderboard = getLeaderboard();
+        if (!leaderboard[level] || wpm > leaderboard[level]) {
+            leaderboard[level] = wpm;
+            setLeaderboard(leaderboard);
+            updateLeaderboardDisplay();
+        }
+    }
+
+
+    // ----- Constants -----
     // Sample texts by difficulty
     const sampleTexts = {
         easy: [
@@ -140,8 +166,10 @@ window.addEventListener('DOMContentLoaded', () => {
         const wpm = timeTaken > 0 ? Math.round((correctWords / timeTaken) * 60) : 0;
         resultTime.textContent = `${timeTaken.toFixed(2)}s`;
         resultWpm.textContent = wpm;
+        const level = difficultySelect.value;
         resultLevel.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
         stopBtn.disabled = true;
+        tryUpdateLeaderboard(level, wpm);
     };
 
 
@@ -163,4 +191,5 @@ window.addEventListener('DOMContentLoaded', () => {
     difficultySelect.addEventListener('change', resetTest);
     // Init
     resetTest();
+    updateLeaderboardDisplay();
 });

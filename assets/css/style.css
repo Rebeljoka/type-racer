@@ -1,16 +1,5 @@
-/* Countdown number size */
-#countdown-number {
-	font-size: 4rem;
-	line-height: 1.1;
-}
-/* Countdown modal dialog width */
-#countdownModal .modal-dialog {
-	max-width: 270px;
-}
-#user-input-display .user-placeholder {
-	color: #aaa;
-	font-style: italic;
-}
+
+/* ========== Imports ========== */
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 /* ========== Base Styles ========== */
@@ -20,20 +9,17 @@ body {
 }
 
 /* ========== Layout & Structure ========== */
-
 .typeracer-header {
 	background: #ff8400;
 	color: #fff;
 	padding: 2rem 0 1.5rem 0;
 	text-align: center;
 }
-
 .typeracer-title {
 	font-family: 'Alegreya', serif;
 	font-size: 2.2rem;
 	margin-bottom: 0.5rem;
 }
-
 .typeracer-card {
 	max-width: 480px;
 	margin: 2rem auto 0 auto;
@@ -42,10 +28,22 @@ body {
 	box-shadow: 0 2px 16px rgba(0,0,0,0.06);
 	padding: 2rem 1.5rem 1.5rem 1.5rem;
 }
-
 .input-group-text, .form-select {
 	background: #f5f5f5;
 	border: 1px solid #ccc;
+}
+
+/* ========== Form Controls ========== */
+/* Make the text in the typing area larger for better readability */
+#typing-area {
+	font-size: 2rem;
+	line-height: 1.5;
+}
+
+input:focus, textarea:focus, .form-control:focus, select:focus {
+	outline: none;
+	box-shadow: 0 0 0 4px rgba(255, 132, 0, 0.25);
+	border-color: #ff8400;
 }
 
 /* ========== Buttons ========== */
@@ -59,12 +57,10 @@ body {
 	font-family: 'Nunito', Arial, sans-serif;
 	box-shadow: 0 2px 6px rgba(0,0,0,0.03);
 }
-
 .typeracer-instructions-btn:hover {
 	background: #ffe0b3;
 	color: #ff8400;
 }
-
 .typeracer-buttons .btn {
 	border: 2px solid #ff8400;
 	color: #ff8400;
@@ -75,14 +71,53 @@ body {
 	margin-bottom: 0.5rem;
 	transition: background 0.2s, color 0.2s;
 }
-
 .typeracer-buttons .btn:last-child {
 	margin-right: 0;
 }
-
 .typeracer-buttons .btn:hover, .typeracer-buttons .btn:focus {
 	background: #ff8400;
 	color: #fff;
+}
+
+/* ========== Prompt & User Input Display ========== */
+#prompt-display {
+	min-height: 48px;
+	background: #f5f5f5;
+	font-family: inherit;
+	font-size: 1.08rem;
+	letter-spacing: 0.02em;
+	white-space: pre-wrap;
+}
+#prompt-display span {
+	color: #222;
+}
+#prompt-display span.incorrect {
+	color: #d32f2f;
+	background: #ffeaea;
+	border-radius: 2px;
+}
+/* User input display for highlighting user mistakes */
+#user-input-display {
+	min-height: 48px;
+	background: #fff;
+	font-family: inherit;
+	font-size: 1.08rem;
+	letter-spacing: 0.02em;
+	white-space: pre-wrap;
+	border: 1px solid #ccc;
+	margin-bottom: 0.5rem;
+}
+#user-input-display span {
+	color: #222;
+}
+#user-input-display span.incorrect {
+	color: #d32f2f;
+	background: #ffeaea;
+	border-radius: 2px;
+}
+#user-input-display .user-placeholder {
+	color: #aaa;
+	font-style: italic;
 }
 
 /* ========== Results ========== */
@@ -95,64 +130,69 @@ body {
 	margin-top: 1.5rem;
 	text-align: center;
 }
-
 .typeracer-results-title {
 	font-size: 1.5rem;
 	font-family: 'Alegreya', serif;
 	color: #222;
 	margin-bottom: 0.5rem;
 }
-
 .typeracer-results p {
 	margin: 0.2rem 0;
 	font-size: 1.1rem;
 }
 
-
-/* ========== Prompt Display ========== */
-
-#prompt-display {
-	min-height: 48px;
-	background: #f5f5f5;
-	font-family: inherit;
-	font-size: 1.08rem;
-	letter-spacing: 0.02em;
-	white-space: pre-wrap;
+/* ========== Modals ========== */
+/* Countdown number size */
+#countdown-number {
+	font-size: 4rem;
+	line-height: 1.1;
 }
-
-#prompt-display span {
+/* Countdown modal dialog width */
+#countdownModal .modal-dialog {
+	max-width: 270px;
+}
+/* Countdown modal body styling */
+.countdown-modal-body {
+	font-size: 2.5rem;
+	font-weight: 700;
+}
+#instructionsModal .modal-dialog {
+	max-width: 600px;
+}
+#instructionsModal .modal-title {
+	text-align: center;
+	width: 100%;
+	display: block;
+	color: #222 !important;
+}
+.instructions-modal-body {
+	background: #fffbe6;
 	color: #222;
 }
-
-#prompt-display span.incorrect {
-	color: #d32f2f;
-	background: #ffeaea;
-	border-radius: 2px;
+#instructionsModal .modal-body ol, #instructionsModal .modal-body ul {
+	font-size: 1.22rem;
+	padding-left: 0;
 }
-
-/* User input display for highlighting user mistakes */
-
-#user-input-display {
-	min-height: 48px;
+#instructionsModal .modal-body ol {
+	list-style: none;
+	counter-reset: none;
+	padding-left: 0;
 	background: #fff;
-	font-family: inherit;
+	border-radius: 8px;
+	padding: 1.2rem 1.5rem 1.2rem 2.2rem;
+	margin: 0;
+	box-shadow: none;
+}
+#instructionsModal .modal-body ol li {
+	margin-bottom: 0.7rem;
 	font-size: 1.08rem;
-	letter-spacing: 0.02em;
-	white-space: pre-wrap;
-	border: 1px solid #ccc;
-	margin-bottom: 0.5rem;
+	line-height: 1.6;
+}
+#instructionsModal .modal-body ol li:last-child {
+	margin-bottom: 0;
 }
 
-#user-input-display span {
-	color: #222;
-}
-
-#user-input-display span.incorrect {
-	color: #d32f2f;
-	background: #ffeaea;
-	border-radius: 2px;
-}
-
+/* ========== Utilities ========== */
 .visually-hidden {
 	position: absolute !important;
 	width: 1px !important;
@@ -164,70 +204,12 @@ body {
 	border: 0 !important;
 }
 
-/* ========== Modals ========== */
-
-/* Countdown modal body styling */
-.countdown-modal-body {
-	font-size: 2.5rem;
-	font-weight: 700;
-}
-
-#instructionsModal .modal-dialog {
-	max-width: 600px;
-}
-
-#instructionsModal .modal-title {
-	text-align: center;
-	width: 100%;
-	display: block;
-	color: #222 !important;
-}
-
-.instructions-modal-body {
-	background: #fffbe6;
-	color: #222;
-}
-
-#instructionsModal .modal-body ol, #instructionsModal .modal-body ul {
-	font-size: 1.22rem;
-	padding-left: 0;
-}
-
-#instructionsModal .modal-body ol {
-	list-style: none;
-	counter-reset: none;
-	padding-left: 0;
-	background: #fff;
-	border-radius: 8px;
-	padding: 1.2rem 1.5rem 1.2rem 2.2rem;
-	margin: 0;
-	box-shadow: none;
-}
-
-#instructionsModal .modal-body ol li {
-	margin-bottom: 0.7rem;
-	font-size: 1.08rem;
-	line-height: 1.6;
-}
-
-#instructionsModal .modal-body ol li:last-child {
-	margin-bottom: 0;
-}
-
-/* ========== Utilities ========== */
-input:focus, textarea:focus, .form-control:focus, select:focus {
-	outline: none;
-	box-shadow: 0 0 0 4px rgba(255, 132, 0, 0.25);
-	border-color: #ff8400;
-}
-
 /* ========== Media Queries ========== */
 @media (max-width: 767.98px) {
 	.typeracer-buttons {
 		justify-content: center;
 	}
 }
-
 @media (min-width: 768px) {
 	.typeracer-card {
 		max-width: 900px;
