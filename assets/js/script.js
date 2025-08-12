@@ -24,6 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
 
+
     // ----- Constants -----
     // Sample texts by difficulty
     const sampleTexts = {
