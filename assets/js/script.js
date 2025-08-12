@@ -45,7 +45,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     // Utility
-    const countCorrectWords = (ref, input) => ref.trim().split(/\s+/).filter((w, i) => w === input.trim().split(/\s+/)[i]).length;
+    const countCorrectWords = (ref, input) => {
+        const refWords = ref.trim().split(/\s+/);
+        const inputWords = input.trim().split(/\s+/);
+        return refWords.filter((w, i) => w === inputWords[i]).length;
+    };
 
 
     // UI update
